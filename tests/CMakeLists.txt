@@ -15,3 +15,8 @@ add_executable(test_unit_converter test_unit_converter.cpp)
 target_include_directories(test_unit_converter PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(test_unit_converter PRIVATE GTest::gtest_main converter)
 add_test(NAME UnitConverterTest COMMAND test_unit_converter)
+
+add_executable(test_parsers test_parsers.cpp)
+target_include_directories(test_parsers PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(test_parsers PRIVATE GTest::gtest_main parser)
+add_test(NAME ParsersTest COMMAND test_parsers)
