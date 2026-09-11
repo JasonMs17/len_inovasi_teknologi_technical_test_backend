@@ -4,7 +4,15 @@ target_include_directories(common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/common)
 add_library(converter converter/UnitConverter.cpp)
 target_include_directories(converter PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(parser parser/ChecksumValidator.cpp)
+add_library(parser 
+    parser/ChecksumValidator.cpp
+    parser/GpParser.cpp
+    parser/GsParser.cpp
+    parser/HeParser.cpp
+    parser/VeParser.cpp
+    parser/PaParser.cpp
+    parser/LeniotParserFactory.cpp
+)
 target_include_directories(parser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(leniot_backend main.cpp)
