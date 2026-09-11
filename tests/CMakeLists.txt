@@ -25,3 +25,8 @@ add_executable(test_navigation_processor test_navigation_processor.cpp)
 target_include_directories(test_navigation_processor PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(test_navigation_processor PRIVATE GTest::gtest_main service converter)
 add_test(NAME NavigationProcessorTest COMMAND test_navigation_processor)
+
+add_executable(test_storage test_storage.cpp)
+target_include_directories(test_storage PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(test_storage PRIVATE GTest::gtest_main service)
+add_test(NAME StorageTest COMMAND test_storage)
