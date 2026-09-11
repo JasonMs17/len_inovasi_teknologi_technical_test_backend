@@ -15,7 +15,10 @@ add_library(parser
 )
 target_include_directories(parser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(service service/NavigationProcessor.cpp)
+add_library(service 
+    service/NavigationProcessor.cpp
+    service/StorageService.cpp
+)
 target_include_directories(service PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(leniot_backend main.cpp)
