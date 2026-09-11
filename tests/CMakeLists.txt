@@ -20,3 +20,8 @@ add_executable(test_parsers test_parsers.cpp)
 target_include_directories(test_parsers PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(test_parsers PRIVATE GTest::gtest_main parser)
 add_test(NAME ParsersTest COMMAND test_parsers)
+
+add_executable(test_navigation_processor test_navigation_processor.cpp)
+target_include_directories(test_navigation_processor PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(test_navigation_processor PRIVATE GTest::gtest_main service converter)
+add_test(NAME NavigationProcessorTest COMMAND test_navigation_processor)
