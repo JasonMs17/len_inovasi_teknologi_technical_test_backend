@@ -10,3 +10,8 @@ add_executable(test_checksum test_checksum.cpp)
 target_include_directories(test_checksum PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(test_checksum PRIVATE GTest::gtest_main parser)
 add_test(NAME ChecksumValidatorTest COMMAND test_checksum)
+
+add_executable(test_unit_converter test_unit_converter.cpp)
+target_include_directories(test_unit_converter PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(test_unit_converter PRIVATE GTest::gtest_main converter)
+add_test(NAME UnitConverterTest COMMAND test_unit_converter)
