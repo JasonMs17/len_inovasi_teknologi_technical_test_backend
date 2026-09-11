@@ -1,0 +1,20 @@
+# Build directories
+build/
+bin/
+lib/
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.sln
+*.user
+*.db
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
