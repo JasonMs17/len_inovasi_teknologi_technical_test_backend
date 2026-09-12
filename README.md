@@ -2,10 +2,13 @@
 
 Backend service C++17 untuk memproses data sensor kapal (NMEA-like), menggabungkan data navigasi berdasarkan prioritas, dan melakukan ekstrapolasi posisi melalui UDP.
 
-## Ringkasan
+Demo Program
 
+https://github.com/user-attachments/assets/809c91be-296e-4ee4-bad3-bb81ccfede29
+
+## Ringkasan
 - **Requirement Understanding**:
-  Menerima stream UDP (port 8080), validasi checksum XOR, standardisasi satuan ke SI, fusi data sensor dengan prioritas & expiry timeout, penyimpanan 10 data terakhir, serta broadcast data navigasi (port 9001, interval 3s) dan hasil prediksi ekstrapolasi (port 9002, interval 5s).
+Menerima stream UDP (port 8080), validasi checksum XOR, standardisasi satuan ke SI, fusi data sensor dengan prioritas & expiry timeout, penyimpanan 10 data terakhir, serta broadcast data navigasi (port 9001, interval 3s) dan hasil prediksi ekstrapolasi (port 9002, interval 5s).
 
 - **Algoritma**:
   - **Checksum**: Bitwise XOR karakter antara `$` dan `*`. Reject string kosong / malformed.
@@ -13,7 +16,7 @@ Backend service C++17 untuk memproses data sensor kapal (NMEA-like), menggabungk
   - **Ekstrapolasi**: Memperkirakan koordinat posisi kapal (lat/lon) untuk 10 detik ke depan berdasarkan posisi terakhir, arah hadap (heading), dan kecepatan saat ini ($jarak = kecepatan \times waktu$).
   - **Ring Buffer**: Penyimpanan riwayat navigasi kapasitas tetap (10 item) dengan operasi $O(1)$ (`std::deque` + `pop_front`).
 
-### Diagram Alur
+Diagram Alur
 ![Diagram Alur Sistem](docs/diagram.png)
 
 ## Proses Implementasi
@@ -72,8 +75,6 @@ docker run -d -p 8080:8080/udp -p 9001:9001/udp -p 9002:9002/udp --name leniot l
 # Atau Docker Compose
 docker compose up -d
 ```
-
----
 
 ## Pengujian
 
