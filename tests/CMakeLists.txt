@@ -30,3 +30,8 @@ add_executable(test_storage test_storage.cpp)
 target_include_directories(test_storage PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(test_storage PRIVATE GTest::gtest_main service)
 add_test(NAME StorageTest COMMAND test_storage)
+
+add_executable(test_extrapolation test_extrapolation.cpp)
+target_include_directories(test_extrapolation PRIVATE ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(test_extrapolation PRIVATE GTest::gtest_main service converter)
+add_test(NAME ExtrapolationTest COMMAND test_extrapolation)
