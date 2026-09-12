@@ -2,6 +2,7 @@
 #define UDP_SENDER_H
 
 #include <string>
+#include <cstdint>
 
 namespace leniot {
 
@@ -17,7 +18,7 @@ private:
     int port_;
     
 #ifdef _WIN32
-    unsigned int socket_;
+    uint64_t socket_;
 #else
     int socket_;
 #endif

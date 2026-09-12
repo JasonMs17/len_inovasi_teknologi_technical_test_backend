@@ -5,6 +5,7 @@
 #ifdef _WIN32
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#undef ERROR
 #pragma comment(lib, "ws2_32.lib")
 #else
 #include <sys/socket.h>
@@ -21,11 +22,11 @@ UdpSender::UdpSender(const std::string& ipAddress, int port)
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         logger::log(logger::LogLevel::ERROR, "WSAStartup failed");
-        socket_ = INVALID_SOCKET;
+        socket_ = (uint64_t)INVALID_SOCKET;
         return;
     }
-    socket_ = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if (socket_ == INVALID_SOCKET) {
+    socket_ = (uint64_t)socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if ((SOCKET)socket_ == INVALID_SOCKET) {
         logger::log(logger::LogLevel::ERROR, "Socket creation failed");
     }
 #else
@@ -38,8 +39,8 @@ UdpSender::UdpSender(const std::string& ipAddress, int port)
 
 UdpSender::~UdpSender() {
 #ifdef _WIN32
-    if (socket_ != INVALID_SOCKET) {
-        closesocket(socket_);
+    if ((SOCKET)socket_ != INVALID_SOCKET) {
+        closesocket((SOCKET)socket_);
     }
     WSACleanup();
 #else
@@ -51,7 +52,7 @@ UdpSender::~UdpSender() {
 
 bool UdpSender::send(const std::string& message) {
 #ifdef _WIN32
-    if (socket_ == INVALID_SOCKET) return false;
+    if ((SOCKET)socket_ == INVALID_SOCKET) return false;
 #else
     if (socket_ < 0) return false;
 #endif
@@ -66,7 +67,7 @@ bool UdpSender::send(const std::string& message) {
     inet_pton(AF_INET, ipAddress_.c_str(), &destAddr.sin_addr);
 #endif
 
-    int result = sendto(socket_, message.c_str(), message.length(), 0,
+    int result = sendto((SOCKET)socket_, message.c_str(), message.length(), 0,
                         (sockaddr*)&destAddr, sizeof(destAddr));
                         
     if (result < 0) {

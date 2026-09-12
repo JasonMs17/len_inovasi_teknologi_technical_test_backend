@@ -5,6 +5,7 @@
 #include <functional>
 #include <thread>
 #include <atomic>
+#include <cstdint>
 
 namespace leniot {
 
@@ -27,7 +28,7 @@ private:
     std::thread receiveThread_;
     
 #ifdef _WIN32
-    unsigned int socket_;
+    uint64_t socket_;
 #else
     int socket_;
 #endif

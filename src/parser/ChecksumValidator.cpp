@@ -10,7 +10,7 @@ bool ChecksumValidator::validate(const std::string& sentence) {
     }
 
     size_t asteriskPos = sentence.find_last_of('*');
-    if (asteriskPos == std::string::npos || asteriskPos == 0) {
+    if (asteriskPos == std::string::npos || asteriskPos <= 1) {
         return false;
     }
 

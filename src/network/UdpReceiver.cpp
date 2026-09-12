@@ -4,6 +4,7 @@
 #ifdef _WIN32
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#undef ERROR
 #else
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -15,7 +16,7 @@ namespace leniot {
 UdpReceiver::UdpReceiver(int port, MessageHandler handler)
     : port_(port), handler_(handler), running_(false) {
 #ifdef _WIN32
-    socket_ = INVALID_SOCKET;
+    socket_ = (uint64_t)INVALID_SOCKET;
 #else
     socket_ = -1;
 #endif
@@ -34,8 +35,8 @@ void UdpReceiver::start() {
         logger::log(logger::LogLevel::ERROR, "WSAStartup failed for Receiver");
         return;
     }
-    socket_ = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if (socket_ == INVALID_SOCKET) {
+    socket_ = (uint64_t)socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if ((SOCKET)socket_ == INVALID_SOCKET) {
         logger::log(logger::LogLevel::ERROR, "Socket creation failed for Receiver");
         return;
     }
@@ -52,11 +53,11 @@ void UdpReceiver::start() {
     serverAddr.sin_addr.s_addr = INADDR_ANY;
     serverAddr.sin_port = htons(port_);
 
-    if (bind(socket_, (sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
+    if (bind((SOCKET)socket_, (sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
         logger::log(logger::LogLevel::ERROR, "Bind failed for Receiver");
 #ifdef _WIN32
-        closesocket(socket_);
-        socket_ = INVALID_SOCKET;
+        closesocket((SOCKET)socket_);
+        socket_ = (uint64_t)INVALID_SOCKET;
 #else
         close(socket_);
         socket_ = -1;
@@ -73,9 +74,9 @@ void UdpReceiver::stop() {
         running_ = false;
         
 #ifdef _WIN32
-        if (socket_ != INVALID_SOCKET) {
-            closesocket(socket_);
-            socket_ = INVALID_SOCKET;
+        if ((SOCKET)socket_ != INVALID_SOCKET) {
+            closesocket((SOCKET)socket_);
+            socket_ = (uint64_t)INVALID_SOCKET;
         }
         WSACleanup();
 #else
@@ -101,7 +102,7 @@ void UdpReceiver::receiveLoop() {
         socklen_t clientAddrLen = sizeof(clientAddr);
 #endif
 
-        int bytesReceived = recvfrom(socket_, buffer, sizeof(buffer) - 1, 0,
+        int bytesReceived = recvfrom((SOCKET)socket_, buffer, sizeof(buffer) - 1, 0,
                                      (sockaddr*)&clientAddr, &clientAddrLen);
 
         if (bytesReceived > 0) {
