@@ -1,0 +1,10 @@
+build/
+bin/
+lib/
+.git/
+.gitignore
+.vscode/
+.idea/
+tester.py
+README.md
+*.md

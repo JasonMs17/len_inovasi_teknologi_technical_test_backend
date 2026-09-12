@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  leniot-backend:
+    build: .
+    container_name: leniot_backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080/udp"
+      - "9001:9001/udp"
+      - "9002:9002/udp"
