@@ -22,6 +22,16 @@ add_library(service
 )
 target_include_directories(service PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+add_library(network 
+    network/UdpSender.cpp
+    network/UdpReceiver.cpp
+)
+target_include_directories(network PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+if(WIN32)
+    target_link_libraries(network PUBLIC ws2_32)
+endif()
+
 add_executable(leniot_backend main.cpp)
 target_include_directories(leniot_backend PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(leniot_backend PRIVATE common parser converter service)
+target_link_libraries(leniot_backend PRIVATE common parser converter service network)
